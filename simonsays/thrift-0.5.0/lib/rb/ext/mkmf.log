@@ -1,0 +1,24 @@
+have_func: checking for strlcpy() in string.h... -------------------- yes
+
+"gcc -o conftest -I/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/include/ruby-1.9.1/i686-linux -I/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/include/ruby-1.9.1/ruby/backward -I/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/include/ruby-1.9.1 -I/home/pgautam/facebookpuzzles/simonsays/thrift-0.5.0/lib/rb/ext  -D_FILE_OFFSET_BITS=64  -g -O2 -Wall -Werror conftest.c  -L. -L/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/lib -Wl,-R/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/lib -L.  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/lib -L/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -o conftest -I/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/include/ruby-1.9.1/i686-linux -I/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/include/ruby-1.9.1/ruby/backward -I/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/include/ruby-1.9.1 -I/home/pgautam/facebookpuzzles/simonsays/thrift-0.5.0/lib/rb/ext  -D_FILE_OFFSET_BITS=64  -g -O2 -Wall -Werror conftest.c  -L. -L/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/lib -Wl,-R/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/lib -L.  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/lib -L/home/pgautam/.rvm/rubies/ruby-1.9.2-p0/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <string.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))strlcpy; return 0; }
+/* end */
+
+--------------------
+

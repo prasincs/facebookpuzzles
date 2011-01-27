@@ -1,0 +1,65 @@
+#!/usr/bin/python
+import sys
+
+def bfs(graph, start):
+  from collections import deque
+  visited = {start: True}
+  group1 = {start: True}
+  group2 = {}
+  q = deque()
+  q.append(start)
+  while len(q) != 0:
+    u = q.popleft()
+    for v in graph[u].keys():
+      if not visited.has_key(v): # if it hasn't been visited
+        visited[v] = True
+
+        # Mark the vertices as being different from neighbor
+        if group2.has_key(u):
+          group1[v] = True         
+        if group1.has_key(u):
+          group2[v] = True 
+        q.append(v)
+  return group1, group2
+
+
+filename = sys.argv[1]
+start = None
+users = {}
+f = open(filename)
+lines = f.readlines()
+f.close()
+num = int(lines[0])
+#print num, len(lines)
+i = 1
+while i < len(lines):
+  line = lines[i].strip()
+  user = line.split()
+  username = user[0].strip()
+  #print i, user[1]
+  #print user[1]
+  if not users.has_key(username):
+          users[username] = {}
+  #print user
+  for j in range(int(user[1])):
+          i+= 1
+          u = lines[i].strip()
+          users[username][u] = True
+  i+=1
+
+start = None
+graph = {}
+for u in users.keys():
+  start = u
+  if not graph.has_key(u):
+    graph[u] = {}
+  for v in users[u].keys():
+    if not graph.has_key(v):
+      graph[v] = {}
+    #undirected
+    graph [u][v] = graph[v][u] = True
+#print graph
+p1, p2 = bfs(graph,start)
+print "%s %s"%tuple(sorted([len(p1), len(p2)],reverse=True))
+
+#print users

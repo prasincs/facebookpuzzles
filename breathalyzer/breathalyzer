@@ -1,0 +1,81 @@
+#!/usr/bin/env python
+
+def levenshteinDistance(s,t):
+	if (len(s) > len(t)):
+		s,t = t,s
+	#print s,t
+	m = len(s)+1
+	n = len(t)+1
+	d = [ [0 for i in range(n)] for j in range(m)]
+	#print m,n
+	for i in range(0, m):
+		d[i][0] = i #deletion
+	for j in range(0, n):
+		d[0][j] = j #insertion
+
+	for j in range(1, n):
+		for i in range(1,m):
+			if s[i-1] == t[i-1]:
+				d[i][j] = d[i-1][j-1]
+			else:
+				d[i][j] = min(
+							d[i-1][j] +1, #deletion
+							d[i][j-1]+1,  #insertion
+							d[i-1][j-1] +1 #substitution
+							)
+	return d[m-1][n-1]
+
+
+def lev(a, b):
+	if not a: return len(b)
+	if not b: return len(a)
+	return min(lev(a[1:], b[1:])+(a[0] != b[0]), lev(a[1:], b)+1, lev(a, b[1:])+1)
+
+
+
+def levenshtein(s1, s2):
+    if len(s1) < len(s2):
+        return levenshtein(s2, s1)
+    if not s1:
+        return len(s2)
+ 
+    previous_row = xrange(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[j + 1] + 1 # j+1 instead of j since previous_row and current_row are one character longer
+            deletions = current_row[j] + 1       # than s2
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+ 
+    return previous_row[-1]
+
+import re,sys
+#print lev("kitten", "kitten")
+#print lev("kitten","sitting")
+
+#print lev("Saturday", "Sunday")
+if __name__ == "__main__":
+	with open(sys.argv[1]) as f:
+		sentence = f.readline()
+	#sentence = raw_input()
+	with open("/var/tmp/twl06.txt") as f:
+		x = [s.strip().lower() for s in f.readlines()]
+	#print sentence
+	words = re.split("\s+",sentence)
+	s = 0
+	for word in words:
+		m = 100000
+		w = ""
+		for i in x:
+			l = levenshteinDistance(word,i)
+			if (l < m):
+				w = i
+				m = l
+			
+
+		s += m
+		#print word, w, m
+
+	print s	
