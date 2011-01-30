@@ -60,6 +60,9 @@ for u in users.keys():
     graph [u][v] = graph[v][u] = True
 #print graph
 p1, p2 = bfs(graph,start)
-print "%s %s"%tuple(sorted([len(p1), len(p2)],reverse=True))
+if (len(p1)>len(p2)):
+  print "%d %d"%(len(p1), len(p2))
+else:
+  print "%d %d"%(len(p2), len(p1))
 
-#print users
+

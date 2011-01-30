@@ -1,0 +1,48 @@
+#!/usr/bin/python
+# Almost like knapsack problem, DP
+import sys
+import string
+if len(sys.argv) ==1:
+  sys.exit(0)
+
+inputFile = open(sys.argv[1])
+goalWeight= int(inputFile.readline())
+items,weights, costs = [],[],[]
+for line in inputFile:
+  fields = line.strip().split()
+  items.append(fields[0])
+  weights.append(int(fields[1]))
+  costs.append(int(fields[2]))
+
+table = [[0]*(goalWeight+1) for i in xrange(len(weights)+1)]
+
+# Since we are taking min, lets initialize the first row
+for v in xrange(goalWeight+1):
+  aw = weights[0]
+  av = costs[0]
+  if aw > v:
+    table[0][v] = av
+  else:
+    table[0][v] = av+ table[v-av]
+
+for w in xrange(1,len(weights)):
+  for v in xrange(1,goalWeight+1):
+    iw = weights[w]
+    iv = costs[w]
+
+    up = table[w-1][v]
+    
+    left = 0;
+    if (iw > v): 
+      left = iv
+    else:
+      left = iv + table[w][v-iw]
+
+    table[w][v] = min(up, left);
+
+print table[len(items)-1][goalWeight]
+    
+
+
+#print table
+#print items, weights, costs
